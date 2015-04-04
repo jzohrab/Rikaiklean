@@ -1,0 +1,59 @@
+# This file demonstrates the few features of rikaiklean.rb.
+
+# Comments are ignored
+a	x	something
+
+# Blanks ignored
+
+# bcde group: bcde "contains" most of the following lines,
+# but not the "bx" line
+bcde	bcde1	xxx
+bc	bc1	should be suppressed, contained within bcde
+b	b1	should be suppressed, contained within bcde
+b	b2	should be suppressed, contained within bcde
+bcd	bcd1	should be suppressed, contained within bcde
+bx	newb	should remain
+
+# Same symbol (c), different pronounciations but same definition
+# Should fold into "c   c1, c2, c3    same_definition_different_pronounciation"
+c	c1	same_definition_different_pronounciation
+c	c2	same_definition_different_pronounciation
+c	c3	same_definition_different_pronounciation
+c	c4	different_meaning_should remain
+
+# Identical dup should be deleted
+a	x	something
+
+# "(P)" in the description means this is a Priority word, sort it to the top.
+pri	priority	some description (P)
+
+# "(oK)" or "(ok)" means "outdated", sort it to the bottom.
+obs	obsolete	(oK) some outdated thing
+
+# Indenting ok
+   indented	something	oooo
+		i	deleted	deleted because "contained" by "indented"
+
+# Different character, but same pronounciation and meaning, are combined
+# (should become "d, e    p1   m1")
+d	p1	m1
+e	p1	m1
+
+
+# bad lines are REMOVED, as they cause problems on import into an SRS.
+too	many	tabs	in this line
+too	few tabs in this line
+
+
+############
+# The above input generates the following output:
+# 
+# pri	priority	some description (P)
+# a	x	something
+# bcde	bcde1	xxx
+# bx	newb	should remain
+# c	c1, c2, c3	same_definition_different_pronounciation
+# c	c4	different_meaning_should remain
+# indented	something	oooo
+# d, e	p1	m1
+# obs	obsolete	(oK) some outdated thing
